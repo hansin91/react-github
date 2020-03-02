@@ -1,0 +1,30 @@
+.jumbotron {
+  border-radius: 10px;
+  text-align: center;
+  background-color: transparent;
+
+  &-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-top: 30px;
+  }
+
+  &-image {
+    justify-content: center;
+    .image-wrapper {
+      max-width: 200px;
+      h2 {
+        font-weight: 500;
+        font-size: 1.5rem;
+        margin-top: 20px;
+        text-align: center;
+      }
+    }
+  }
+
+  .image-wrapper {
+    max-width: 200px;
+  }
+}
