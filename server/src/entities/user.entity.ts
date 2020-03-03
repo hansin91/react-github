@@ -1,0 +1,62 @@
+import {
+  Table, CreatedAt,
+  UpdatedAt, DataType, Column, Model,
+} from 'sequelize-typescript'
+
+@Table({ tableName: 'Users' })
+export class User extends Model<User> {
+
+  @Column({
+    type: DataType.BIGINT,
+    allowNull: false,
+    autoIncrement: true,
+    unique: true,
+    primaryKey: true,
+  })
+  public id: number
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+    unique: true,
+  })
+  username: string
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  name: string
+
+  @Column({
+    type: DataType.TEXT,
+    allowNull: false,
+    unique: true,
+  })
+  avatar_url: string
+
+  @Column({
+    type: DataType.TEXT,
+    allowNull: false,
+    unique: true,
+  })
+  html_url: string
+
+  @Column({
+    type: DataType.TEXT,
+    allowNull: false,
+    unique: true,
+    validate: {
+      isEmail: {
+        msg: 'Invalid format email',
+      },
+    },
+  })
+  email: string
+
+  @CreatedAt
+  createdAt: Date;
+
+  @UpdatedAt
+  updatedAt: Date;
+}

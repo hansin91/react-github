@@ -28,3 +28,39 @@
     max-width: 200px;
   }
 }
+
+.login-modal {
+  margin-top: 100px;
+
+  .modal-header {
+    h5 {
+      width: 100%;
+      text-align: center;
+      font-size: 2rem;
+    }
+  }
+
+  .button-login-github {
+    background-color: #444;
+  }
+
+  .button-login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    .anchor-login {
+      color: #fff;
+      text-decoration: none;
+    }
+
+    .fa {
+      font-size: 3rem;
+    }
+    p {
+      margin-bottom: 0;
+      margin-left: 20px;
+      font-size: 1.2rem;
+    }
+  }
+}

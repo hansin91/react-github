@@ -7,6 +7,7 @@ class App extends Component {
   render () {
     const Login = React.lazy(() => import('./pages/Login'))
     const Register = React.lazy(() => import('./pages/Register'))
+
     return (
       <Fragment>
         <Router>
