@@ -1,29 +1,18 @@
-import React, { Component, Suspense, Fragment } from 'react'
+import React, { Component } from 'react'
 import './App.scss'
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
-import HomePage from './pages/Homepage'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
+import store from './store'
+import { Provider } from 'react-redux'
+import Main from './Main'
 
 class App extends Component {
   render () {
-    const Login = React.lazy(() => import('./pages/Login'))
-    const Register = React.lazy(() => import('./pages/Register'))
-
     return (
-      <Fragment>
+      <Provider store={store}>
         <Router>
-          <Switch>
-            <Route exact path="/" component={HomePage} />
-            <Route exact path="/login" render={() =>
-              <Suspense fallback={<div />}>
-                <Login />
-              </Suspense>} />
-            <Route exact path="/register" render={() =>
-              <Suspense fallback={<div />}>
-                <Register />
-              </Suspense>} />
-          </Switch>
+          <Route path="/" component={Main} />
         </Router>
-      </Fragment>
+      </Provider>
     )
   }
 }
