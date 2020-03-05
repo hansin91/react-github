@@ -1,26 +1,24 @@
-import React, { Fragment, useEffect } from 'react'
+import React, { Fragment, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { Button } from 'reactstrap'
-import { fetchRepositoryDetail, addToFavourite } from '../../actions'
+import { Button, Toast, ToastBody, ToastHeader } from 'reactstrap'
+import { fetchRepositoryDetail, addToFavourite } from '../../redux/actions'
 import Skeleton from 'react-loading-skeleton'
-import { ToastContainer, toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 import './style.scss'
 
 function RepositoryDetail () {
   const dispatch = useDispatch()
   const repository = useSelector(state => state.github.repository)
   const isLoading = useSelector(state => state.github.isLoading)
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
-  const isLoadingFavourite = useSelector(state => state.user.isLoading)
+  const isAuthenticated = useSelector(state => state.user.isAuthenticated)
+  const isLoadingFavourite = useSelector(state => state.user.isLoadingFavourite)
   const message = useSelector(state => state.user.message)
-  const error = useSelector(state => state.user.error)
-  // const profile = useSelector(state => state.auth.user)
+  const errors = useSelector(state => state.user.errors)
   const fetchDetail = (name) => dispatch(fetchRepositoryDetail(name))
   const markAsFavourite = (params) => dispatch(addToFavourite(params))
   const { user, repo_name } = useParams()
   const repository_name = user + '/' + repo_name
+  const [isOpen, setIsOpen] = useState(false)
 
   useEffect(() => {
     fetchDetail(repository_name)
@@ -28,15 +26,17 @@ function RepositoryDetail () {
 
   useEffect(() => {
     if (message) {
-      toast(message, { type: toast.TYPE.SUCCESS, autoClose: 5000 })
+      setIsOpen(true)
+      // toast(message, { type: toast.TYPE.SUCCESS, autoClose: 5000 })
     }
   }, [message])
 
   useEffect(() => {
-    if (error) {
-      toast(error, { type: toast.TYPE.ERROR, autoClose: 5000 })
+    if (errors) {
+      setIsOpen(true)
+      // toast(error, { type: toast.TYPE.ERROR, autoClose: 5000 })
     }
-  }, [error])
+  }, [errors])
 
   const { owner,
     forks_count,
@@ -48,9 +48,8 @@ function RepositoryDetail () {
     full_name } = repository
   return (
     <Fragment>
-      <ToastContainer />
       {isLoading && <Skeleton count={10} />}
-      {owner &&
+      {repository &&
         <div className="repository-detail">
           <div className="repository-image">
             <img className="img-fluid d-block w-100" src={owner ? owner.avatar_url : ''} alt={name} />

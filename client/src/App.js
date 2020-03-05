@@ -5,7 +5,7 @@ import Navbar from './components/Navbar'
 import HomePage from './pages/Homepage'
 import LoadingApp from './components/LoadingApp'
 import { connect } from 'react-redux'
-import { verifyUserToken } from './actions'
+import { verifyUserToken } from './redux/actions'
 import { Container } from 'reactstrap'
 
 class App extends Component {
@@ -19,6 +19,7 @@ class App extends Component {
   render () {
     const Search = React.lazy(() => import('./pages/Search'))
     const RepositoryDetail = React.lazy(() => import('./pages/RepositoryDetail'))
+    const Profile = React.lazy(() => import('./pages/Profile'))
     return (
       <Router>
         {this.props.isLoading && <LoadingApp />}
@@ -34,6 +35,10 @@ class App extends Component {
               <Suspense fallback={<div />}>
                 <RepositoryDetail />
               </Suspense>} />
+            <Route path="/profile" render={() =>
+              <Suspense fallback={<div />}>
+                <Profile />
+              </Suspense>} />
           </Switch>
         </Container>
       </Router>
@@ -43,7 +48,7 @@ class App extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    isLoading: state.auth.isLoadingApp
+    isLoading: state.user.isLoadingApp
   }
 }
 

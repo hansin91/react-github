@@ -8,11 +8,11 @@ import Followers from '../../assets/images/teamwork.svg'
 import Repository from '../../assets/images/cloud.svg'
 import ImageHomepage from './components/ImageHomepage'
 import LoadingPage from '../../components/LoadingPage'
-import { loginWithGithub } from '../../actions'
+import { loginWithGithub } from '../../redux/actions'
 
 
 function HomePage () {
-  const isLoading = useSelector(state => state.auth.isLoading)
+  const isLoading = useSelector(state => state.user.isLoading)
   const history = useHistory()
   const [images] = useState([{
     src: Followers,

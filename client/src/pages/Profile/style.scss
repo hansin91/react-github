@@ -1,0 +1,63 @@
+.profile {
+  display: flex;
+
+  .profile-image {
+    max-width: 300px;
+  }
+
+  table {
+    tbody {
+      tr {
+        td {
+          border-top: none;
+        }
+      }
+    }
+  }
+}
+
+.favourite {
+  padding: 1rem 0;
+
+  .favourite-image {
+    img {
+      max-width: 80px;
+    }
+  }
+
+  .favourite-detail {
+    align-self: center;
+  }
+
+  table {
+    tr {
+      td {
+        border-top: none;
+      }
+    }
+  }
+}
+
+.profile-link {
+  display: flex;
+  margin: 20px 0;
+  .profile-tab {
+    padding: 1rem;
+  }
+}
+
+a.active-link  {
+  padding: 1rem;
+  color: #444;
+  &.active {
+    font-weight: bolder;
+    background-color: #444;
+    color: #fff;
+  }
+
+  &:hover {
+    text-decoration: none;
+    background-color: #444;
+    color: #fff;
+  }
+}

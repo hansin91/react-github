@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Skeleton from 'react-loading-skeleton'
 import Pagination from 'react-js-pagination'
 import './style.scss'
-import { searchUserOrRepository } from '../../actions'
+import { searchUserOrRepository } from '../../redux/actions'
 import ResultRepository from './components/ResultRepository'
 import ResultUser from './components/ResultUser'
 

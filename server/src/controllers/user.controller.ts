@@ -17,10 +17,4 @@ export class UserController {
     const data = await this.userService.loginWithGithub(code)
     res.status(data.status).json(data)
   }
-
-  @Post('favourite')
-  public async addToFavourite(@Res() res: Response, @Req() req, @Body() payload: string) {
-    const data = await this.userService.addToFavourite(payload, req)
-    res.status(data.status).json(data)
-  }
 }

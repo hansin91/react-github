@@ -1,6 +1,8 @@
 import {
   Table, CreatedAt,
-  UpdatedAt, DataType, Column, Model, BelongsToMany,
+  UpdatedAt, DataType,
+  Column, Model, BelongsToMany,
+  HasMany,
 } from 'sequelize-typescript'
 import { User } from './user.entity'
 import { Favourite } from './favourite.entity'
@@ -67,4 +69,7 @@ export class Repository extends Model<Repository> {
 
   @BelongsToMany(() => User, () => Favourite)
   users: User[]
+
+  @HasMany(() => Favourite)
+  favourites: Favourite[]
 }

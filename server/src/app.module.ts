@@ -1,15 +1,16 @@
 import { Module, NestModule, MiddlewareConsumer, RequestMethod } from '@nestjs/common'
-import { UserController, GithubController } from './controllers'
-import { UserService, GithubService } from './services'
+import { UserController, GithubController, FavouriteController } from './controllers'
+import { UserService, GithubService, FavouriteService } from './services'
 import { DatabaseModule } from './database/database.module'
 import { isAuthenticated } from './middlewares/isAuthenticated'
 
 @Module({
   imports: [DatabaseModule],
-  controllers: [UserController, GithubController],
+  controllers: [UserController, GithubController, FavouriteController],
   providers: [
     UserService,
     GithubService,
+    FavouriteService,
   ],
 })
 export class AppModule implements NestModule {
@@ -25,6 +26,6 @@ export class AppModule implements NestModule {
         path: 'users/login', method: RequestMethod.POST,
       },
     )
-      .forRoutes(UserController, GithubController)
+      .forRoutes(UserController, GithubController, FavouriteController)
   }
 }

@@ -18,7 +18,7 @@ import {
 import { Link, useHistory, useLocation } from "react-router-dom"
 import { useSelector, useDispatch } from 'react-redux'
 import LoginModal from '../../pages/Homepage/components/LoginModal'
-import { logout } from '../../actions'
+import { logout } from '../../redux/actions'
 import './style.scss'
 
 
@@ -31,8 +31,8 @@ function Navbar () {
     return (new URLSearchParams(useLocation().search))
   }
   const query = useQuery()
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
-  const user = useSelector(state => state.auth.user)
+  const isAuthenticated = useSelector(state => state.user.isAuthenticated)
+  const user = useSelector(state => state.user.user)
 
   const [isOpen, setIsOpen] = useState(false)
   const toggle = () => setIsOpen(!isOpen)
@@ -58,6 +58,10 @@ function Navbar () {
 
   const handleSelectType = (event) => {
     setType(event.target.value)
+  }
+
+  const goToProfile = () => {
+    history.push('/profile')
   }
 
   return (
@@ -101,7 +105,7 @@ function Navbar () {
                 </DropdownToggle>
                 <DropdownMenu right>
                   <DropdownItem>
-                    Profile
+                    <span onClick={goToProfile}>Profile</span>
                   </DropdownItem>
                   <DropdownItem>
                     <span onClick={userLogout}>Logout</span>

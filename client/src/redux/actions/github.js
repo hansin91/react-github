@@ -4,7 +4,7 @@ import {
   SET_ERRORS,
   SET_REPOSITORY
 } from './types'
-import api from '../api'
+import api from '../../api'
 
 const searchData = (value) => ({
   type: SET_SEARCH_RESULT,
@@ -28,6 +28,7 @@ const setRepository = (data) => ({
 
 export const fetchRepositoryDetail = (name) => (dispatch) => {
   dispatch(setLoading(true))
+  dispatch(setRepository(''))
   api({
     method: 'GET',
     url: '/github/repository',

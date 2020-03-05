@@ -1,6 +1,6 @@
 import {
   Table, CreatedAt,
-  UpdatedAt, DataType, Column, Model, ForeignKey,
+  UpdatedAt, DataType, Column, Model, ForeignKey, BelongsTo,
 } from 'sequelize-typescript'
 import { User } from './user.entity';
 import { Repository } from './repository.entity';
@@ -24,6 +24,9 @@ export class Favourite extends Model<Favourite> {
   })
   RepositoryId: number
 
+  @BelongsTo(() => Repository)
+  repository: Repository
+
   @CreatedAt
   createdAt: Date;
 
@@ -36,4 +39,7 @@ export class Favourite extends Model<Favourite> {
     allowNull: false,
   })
   UserId: number
+
+  @BelongsTo(() => User)
+  user: User
 }
