@@ -1,13 +1,27 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
+import { Module, NestModule, MiddlewareConsumer, RequestMethod } from '@nestjs/common'
 import { UserController, GithubController } from './controllers'
 import { UserService, GithubService } from './services'
-import { AppService } from './app.service';
-import { DatabaseModule } from './database/database.module';
+import { DatabaseModule } from './database/database.module'
+import { isAuthenticated } from './middlewares/isAuthenticated'
 
 @Module({
   imports: [DatabaseModule],
-  controllers: [AppController, UserController, GithubController],
-  providers: [AppService, UserService, GithubService],
+  controllers: [UserController, GithubController],
+  providers: [
+    UserService,
+    GithubService,
+  ],
 })
-export class AppModule { }
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(isAuthenticated).exclude(
+      {
+        path: 'github/search', method: RequestMethod.GET,
+      },
+      {
+        path: 'users/login', method: RequestMethod.POST,
+      },
+    )
+      .forRoutes(UserController, GithubController)
+  }
+}

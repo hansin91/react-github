@@ -1,31 +1,37 @@
-import { SEARCH_DATA, SEARCH_DATA_SUCCESS, SEARCH_DATA_FAILED } from '../actions/types'
+import { SET_ERRORS, SET_LOADING, SET_MESSAGE, SET_SEARCH_RESULT } from '../actions/types'
 
 const initialState = {
   users: [],
   isLoading: null,
   result: [],
-  errors: []
+  errors: [],
+  totalItems: 0,
+  message: ''
 }
 
 export default function (state = initialState, action) {
   switch (action.type) {
-    case SEARCH_DATA:
+    case SET_LOADING:
       return {
         ...state,
-        isLoading: action.payload.isLoading,
+        isLoading: action.payload
       }
-    case SEARCH_DATA_SUCCESS:
+    case SET_SEARCH_RESULT:
       return {
         ...state,
-        isLoading: action.payload.isLoading,
-        result: action.payload.data.result.items
+        result: action.payload.result.items,
+        totalItems: action.payload.result.total_count
       }
-    case SEARCH_DATA_FAILED:
+    case SET_ERRORS:
       return {
         ...state,
-        isLoading: action.payload.isLoading,
-        result: state.result,
-        errors: action.payload.errors
+        errors: action.payload,
+        totalItems: state.totalItems
+      }
+    case SET_MESSAGE:
+      return {
+        ...state,
+        message: action.payload
       }
     default:
       return state

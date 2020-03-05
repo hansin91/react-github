@@ -8,9 +8,31 @@
   font-size: 23px;
   font-weight: normal;
   padding-bottom: 0;
+  margin-bottom: 40px;
 
   .find-search {
     color: #333;
     font-weight: bold;
   }
+}
+
+.result-container {
+  display: flex;
+  padding-right: 1rem;
+  padding-bottom: 2rem;
+  .result-image {
+    width: 150px;
+  }
+  .result-description {
+    padding-left: 1.5rem;
+    align-self: center;
+  }
+}
+
+.skeleton-wrapper {
+  padding-top: 50px;
+}
+
+.result-user {
+  padding: 1rem 0;
 }

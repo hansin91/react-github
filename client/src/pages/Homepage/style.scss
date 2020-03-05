@@ -63,4 +63,13 @@
       font-size: 1.2rem;
     }
   }
+
+  .modal-body {
+    .button-login-link {
+      &:hover {
+        text-decoration: none;
+        border: none;
+      }
+    }
+  }
 }

@@ -54,6 +54,15 @@ export class User extends Model<User> {
   })
   email: string
 
+  @Column
+  following_url: string
+
+  @Column
+  followers_url: string
+
+  @Column
+  repos_url: string
+
   @CreatedAt
   createdAt: Date;
 

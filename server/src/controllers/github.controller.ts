@@ -7,7 +7,7 @@ export class GithubController {
   constructor(private readonly githubService: GithubService) { }
 
   @Get('search')
-  async fetchUsers(
+  async fetchData(
     @Res() res: Response,
     @Query('type') type: string,
     @Query('query') query: string,
