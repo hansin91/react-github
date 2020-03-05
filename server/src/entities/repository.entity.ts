@@ -2,11 +2,11 @@ import {
   Table, CreatedAt,
   UpdatedAt, DataType, Column, Model, BelongsToMany,
 } from 'sequelize-typescript'
-import { Repository } from './repository.entity'
+import { User } from './user.entity'
 import { Favourite } from './favourite.entity'
 
-@Table({ tableName: 'Users' })
-export class User extends Model<User> {
+@Table({ tableName: 'Repositories' })
+export class Repository extends Model<Repository> {
 
   @Column({
     type: DataType.BIGINT,
@@ -18,11 +18,10 @@ export class User extends Model<User> {
   public id: number
 
   @Column({
-    type: DataType.STRING,
+    type: DataType.NUMBER,
     allowNull: false,
-    unique: true,
   })
-  username: string
+  github_id: number
 
   @Column({
     type: DataType.STRING,
@@ -33,37 +32,32 @@ export class User extends Model<User> {
   @Column({
     type: DataType.TEXT,
     allowNull: false,
-    unique: true,
+  })
+  description: string
+
+  @Column({
+    type: DataType.TEXT,
+    allowNull: false,
+  })
+  url: string
+
+  @Column({
+    type: DataType.STRING,
+    allowNull: false,
+  })
+  owner: string
+
+  @Column({
+    type: DataType.TEXT,
+    allowNull: false,
+  })
+  owner_url: string
+
+  @Column({
+    type: DataType.TEXT,
+    allowNull: false,
   })
   avatar_url: string
-
-  @Column({
-    type: DataType.TEXT,
-    allowNull: false,
-    unique: true,
-  })
-  html_url: string
-
-  @Column({
-    type: DataType.TEXT,
-    allowNull: false,
-    unique: true,
-    validate: {
-      isEmail: {
-        msg: 'Invalid format email',
-      },
-    },
-  })
-  email: string
-
-  @Column
-  following_url: string
-
-  @Column
-  followers_url: string
-
-  @Column
-  repos_url: string
 
   @CreatedAt
   createdAt: Date;
@@ -71,6 +65,6 @@ export class User extends Model<User> {
   @UpdatedAt
   updatedAt: Date;
 
-  @BelongsToMany(() => Repository, () => Favourite)
-  repositories: Repository[]
+  @BelongsToMany(() => User, () => Favourite)
+  users: User[]
 }

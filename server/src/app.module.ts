@@ -19,6 +19,9 @@ export class AppModule implements NestModule {
         path: 'github/search', method: RequestMethod.GET,
       },
       {
+        path: 'github/repository', method: RequestMethod.GET,
+      },
+      {
         path: 'users/login', method: RequestMethod.POST,
       },
     )

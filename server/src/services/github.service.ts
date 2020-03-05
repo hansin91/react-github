@@ -31,4 +31,24 @@ export class GithubService {
       }
     }
   }
+
+  async fetchRepositoryDetail(name) {
+    try {
+      const url = process.env.GITHUB_BASE_URL + '/repos/' + name
+      const response = await axios({
+        method: 'GET',
+        url,
+      })
+      return {
+        status: HttpStatus.OK,
+        repository: response.data,
+      }
+    } catch (error) {
+      return {
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        error,
+      }
+    }
+  }
+
 }

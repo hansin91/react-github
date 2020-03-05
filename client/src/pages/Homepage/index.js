@@ -12,10 +12,8 @@ import { loginWithGithub } from '../../actions'
 
 
 function HomePage () {
-
   const isLoading = useSelector(state => state.auth.isLoading)
   const history = useHistory()
-
   const [images] = useState([{
     src: Followers,
     title: 'Followers'

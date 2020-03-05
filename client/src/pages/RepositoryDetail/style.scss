@@ -1,0 +1,57 @@
+.repository-detail {
+  display: flex;
+
+  .repository-info {
+    margin-left: 20px;
+  }
+
+  .repository-image {
+    max-width: 300px;
+  }
+
+  table {
+    tr {
+      td {
+        border-top: none;
+      }
+    }
+  }
+  .font-medium {
+    font-size: 2rem;
+  }
+
+  .fork-star {
+    display: flex;
+    .fork {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .star {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-left: 20px;
+    }
+    .fork-count {
+      margin-left: 10px;
+    }
+
+    .star-count {
+      margin-left: 10px;
+    }
+
+    .fa-star {
+      color: orange
+    }
+  }
+
+  .icon-favourite {
+    color: #fff;
+    margin-right: 10px;
+  }
+
+  .button-favourite {
+    margin-top: 30px;
+  }
+}

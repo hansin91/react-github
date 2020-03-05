@@ -1,5 +1,10 @@
-import { SET_SEARCH_RESULT, SET_LOADING, SET_ERRORS } from './types'
-import githubAPI from '../api'
+import {
+  SET_SEARCH_RESULT,
+  SET_LOADING,
+  SET_ERRORS,
+  SET_REPOSITORY
+} from './types'
+import api from '../api'
 
 const searchData = (value) => ({
   type: SET_SEARCH_RESULT,
@@ -16,10 +21,34 @@ const setErrors = (errors) => ({
   payload: errors
 })
 
+const setRepository = (data) => ({
+  type: SET_REPOSITORY,
+  payload: data
+})
+
+export const fetchRepositoryDetail = (name) => (dispatch) => {
+  dispatch(setLoading(true))
+  api({
+    method: 'GET',
+    url: '/github/repository',
+    params: {
+      name
+    }
+  })
+    .then(response => {
+      dispatch(setErrors([]))
+      dispatch(setRepository(response.data.repository))
+    })
+    .catch(err => {
+      dispatch(setErrors(err.response))
+    })
+    .finally(() => dispatch(setLoading(false)))
+}
+
 export const searchUserOrRepository = (params) => (dispatch) => {
   const { query, type, page, limit } = params
   dispatch(setLoading(true))
-  githubAPI({
+  api({
     method: 'GET',
     url: '/github/search',
     params: {

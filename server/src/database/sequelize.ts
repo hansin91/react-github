@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize-typescript'
-import { User } from '../entities'
+import { User, Repository, Favourite } from '../entities'
 
 export const sequelize = new Sequelize({
   repositoryMode: true,
@@ -9,5 +9,5 @@ export const sequelize = new Sequelize({
   username: 'postgres',
   password: 'abc12345',
   database: 'github-info',
-  models: [User],
+  models: [User, Repository, Favourite],
 })

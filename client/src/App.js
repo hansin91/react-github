@@ -6,6 +6,7 @@ import HomePage from './pages/Homepage'
 import LoadingApp from './components/LoadingApp'
 import { connect } from 'react-redux'
 import { verifyUserToken } from './actions'
+import { Container } from 'reactstrap'
 
 class App extends Component {
 
@@ -17,17 +18,24 @@ class App extends Component {
 
   render () {
     const Search = React.lazy(() => import('./pages/Search'))
+    const RepositoryDetail = React.lazy(() => import('./pages/RepositoryDetail'))
     return (
       <Router>
         {this.props.isLoading && <LoadingApp />}
         <Navbar />
-        <Switch>
-          <Route path="/search" render={() =>
-            <Suspense fallback={<div />}>
-              <Search />
-            </Suspense>} />
-          <Route exact path="/" component={HomePage} />
-        </Switch>
+        <Container className="wrapper">
+          <Switch>
+            <Route path="/search" render={() =>
+              <Suspense fallback={<div />}>
+                <Search />
+              </Suspense>} />
+            <Route exact path="/" component={HomePage} />
+            <Route exact path="/repository/:user/:repo_name" render={() =>
+              <Suspense fallback={<div />}>
+                <RepositoryDetail />
+              </Suspense>} />
+          </Switch>
+        </Container>
       </Router>
     )
   }

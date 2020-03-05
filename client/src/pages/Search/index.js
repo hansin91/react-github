@@ -1,6 +1,6 @@
 import React, { useEffect, Fragment, useState } from 'react'
 import { useLocation, useHistory } from 'react-router-dom'
-import { Container, Col, Row } from 'reactstrap'
+import { Col, Row } from 'reactstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Skeleton from 'react-loading-skeleton'
 import Pagination from 'react-js-pagination'
@@ -43,40 +43,36 @@ function Search () {
 
   if (isLoading) {
     return (
-      <Container>
-        <div className="skeleton-wrapper">
-          <Skeleton count={10} />
-        </div>
-      </Container>
+      <div className="skeleton-wrapper">
+        <Skeleton count={10} />
+      </div>
     )
   }
   return (
     <Fragment>
-      <Container className="search-container">
-        <div>
-          <h3 className="find-header">Results for &nbsp;
+      <div>
+        <h3 className="find-header">Results for &nbsp;
             <span className="find-search">"{query.get("q")}"</span>
-          </h3>
-        </div>
-        <Row>
-          {query.get("type") === 'repo'
-            && result
-            && result.map((data, index) =>
-              <Col key={index} md="12"><ResultRepository data={data} /></Col>)}
+        </h3>
+      </div>
+      <Row>
+        {query.get("type") === 'repo'
+          && result
+          && result.map((data, index) =>
+            <Col key={index} md="12"><ResultRepository data={data} /></Col>)}
 
-          {query.get("type") === 'user'
-            && result
-            && result.map((data, index) =>
-              <Col key={index} md="3" sm="6" xs="12"><ResultUser data={data} /></Col>)}
-        </Row>
-        {result.length && <Pagination activePage={selectedPage}
-          onChange={handleSelectedPage}
-          itemClass="page-item"
-          linkClass="page-link"
-          itemsCountPerPage={10}
-          totalItemsCount={totalItems}
-          pageRangeDisplayed={5} />}
-      </Container>
+        {query.get("type") === 'user'
+          && result
+          && result.map((data, index) =>
+            <Col key={index} md="3" sm="6" xs="12"><ResultUser data={data} /></Col>)}
+      </Row>
+      {result.length && <Pagination activePage={selectedPage}
+        onChange={handleSelectedPage}
+        itemClass="page-item"
+        linkClass="page-link"
+        itemsCountPerPage={10}
+        totalItemsCount={totalItems}
+        pageRangeDisplayed={5} />}
     </Fragment>
   )
 }

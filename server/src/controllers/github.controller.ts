@@ -22,4 +22,10 @@ export class GithubController {
     const data = await this.githubService.searchUserOrRepository(params)
     res.status(data.status).json(data)
   }
+
+  @Get('repository')
+  async getRepositoryDetail(@Res() res: Response, @Query('name') name: string) {
+    const data = await this.githubService.fetchRepositoryDetail(name)
+    res.status(data.status).json(data)
+  }
 }

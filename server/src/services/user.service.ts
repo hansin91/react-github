@@ -2,12 +2,14 @@ import { Injectable, HttpStatus } from '@nestjs/common'
 import { Op } from 'sequelize'
 import axios from 'axios'
 import * as jwt from 'jsonwebtoken'
-import { User } from '../entities'
+import { User, Repository, Favourite } from '../entities'
 import { sequelize } from '../database/sequelize'
 
 @Injectable()
 export class UserService {
   private userRepository = sequelize.getRepository(User)
+  private githubRepository = sequelize.getRepository(Repository)
+  private favouriteRepository = sequelize.getRepository(Favourite)
   async fetchUsers() {
     try {
       const users = await this.userRepository.findAll()
@@ -27,6 +29,7 @@ export class UserService {
     try {
       const id = req.decoded
       const user = await this.userRepository.findOne({
+        include: [sequelize.models.Repository],
         where: {
           id,
         },
@@ -34,6 +37,73 @@ export class UserService {
       return {
         status: HttpStatus.OK,
         user,
+      }
+    } catch (error) {
+      return {
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        error,
+      }
+    }
+  }
+
+  async addToFavourite(payload, req) {
+    const { url } = payload
+    try {
+      const response = await axios({
+        method: 'GET',
+        url,
+      })
+      const data = response.data
+
+      const { id, full_name, owner, description, html_url } = data
+      const { login, avatar_url } = owner
+      const owner_url = owner.html_url
+      let repo = await this.githubRepository.findOne({
+        where: {
+          github_id: id,
+        },
+      })
+
+      if (!repo) {
+        repo = await this.githubRepository.create({
+          github_id: id,
+          name: full_name,
+          description,
+          url: html_url,
+          owner: login,
+          owner_url,
+          avatar_url,
+        })
+      }
+
+      const found = await this.favouriteRepository.findOne({
+        where: {
+          [Op.and]: [
+            {
+              RepositoryId: repo.id,
+            },
+            {
+              UserId: req.decoded,
+            },
+          ],
+        },
+      })
+
+      if (found) {
+        return {
+          status: HttpStatus.BAD_REQUEST,
+          error: 'You already added ' + repo.name + ' into your favourites',
+        }
+      }
+
+      const newFavourite = await this.favouriteRepository.create({
+        RepositoryId: repo.id,
+        UserId: req.decoded,
+      })
+      return {
+        status: HttpStatus.OK,
+        favourite: newFavourite,
+        message: repo.name + ' added to your favourites successfully ',
       }
     } catch (error) {
       return {

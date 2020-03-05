@@ -1,6 +1,12 @@
 import React from 'react'
+import { Button } from "reactstrap"
+import { useHistory } from 'react-router-dom'
 function Result (props) {
+  const history = useHistory()
   const { owner, full_name, html_url, description } = props.data
+  const goToDetail = (name) => {
+    history.push('/repository/' + name)
+  }
   return (
     <div className="result-container">
       <div className="result-image">
@@ -31,6 +37,7 @@ function Result (props) {
             </tr>
           </tbody>
         </table>
+        <Button onClick={() => goToDetail(full_name)} outline color="info">Show detail</Button>
       </div>
     </div>
   )

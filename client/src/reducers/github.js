@@ -1,4 +1,10 @@
-import { SET_ERRORS, SET_LOADING, SET_MESSAGE, SET_SEARCH_RESULT } from '../actions/types'
+import {
+  SET_ERRORS,
+  SET_LOADING,
+  SET_MESSAGE,
+  SET_SEARCH_RESULT,
+  SET_REPOSITORY
+} from '../actions/types'
 
 const initialState = {
   users: [],
@@ -6,11 +12,17 @@ const initialState = {
   result: [],
   errors: [],
   totalItems: 0,
-  message: ''
+  message: '',
+  repository: {}
 }
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    case SET_REPOSITORY:
+      return {
+        ...state,
+        repository: action.payload
+      }
     case SET_LOADING:
       return {
         ...state,
