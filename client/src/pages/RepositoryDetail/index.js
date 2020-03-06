@@ -39,7 +39,7 @@ function RepositoryDetail () {
     if (errors.length) {
       setShow(true)
     }
-  }, [errors])
+  }, [errors.length, errors])
 
   useEffect(() => {
     setTimeout(() => {
@@ -75,7 +75,7 @@ function RepositoryDetail () {
             {message ? 'Message' : 'Error'}
           </ToastHeader>
           <ToastBody>
-            {message ? message : errors}
+            {message ? message : errors.length ? errors : ''}
           </ToastBody>
         </Toast>}
       {repository &&
