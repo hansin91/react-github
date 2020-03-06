@@ -16,7 +16,8 @@ import {
   LOAD_MORE_FAVOURITES,
   SET_ALL_FAVOURITE,
   SET_LOADING_DELETE,
-  DELETE_FAVOURITE
+  DELETE_FAVOURITE,
+  MARK_AS_FAVOURITE
 } from './types'
 import api from '../../api'
 
@@ -220,6 +221,11 @@ const setDeletedFavourite = (value) => ({
   payload: value
 })
 
+const markAsFavourite = (value) => ({
+  type: MARK_AS_FAVOURITE,
+  payload: value
+})
+
 export const deleteFavourite = (id) => (dispatch) => {
   dispatch(setLoadingDelete(true))
   dispatch(setDeletedFavourite(false))
@@ -248,6 +254,7 @@ export const deleteFavourite = (id) => (dispatch) => {
 
 export const addToFavourite = (url) => (dispatch) => {
   dispatch(setLoadingFavourite(true))
+  dispatch(markAsFavourite(false))
   api({
     method: 'POST',
     url: '/favourites',
@@ -262,10 +269,12 @@ export const addToFavourite = (url) => (dispatch) => {
       dispatch(setErrors([]))
       dispatch(setMessage(response.data.message))
       dispatch(fetchAllFavourite())
+      dispatch(markAsFavourite(true))
     })
     .catch(err => {
       dispatch(setErrors([err.response.data.error]))
       dispatch(setMessage(''))
+      dispatch(markAsFavourite(false))
     })
     .finally(() => dispatch(setLoadingFavourite(false)))
 }

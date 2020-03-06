@@ -16,7 +16,8 @@ import {
   LOAD_MORE_FAVOURITES,
   SET_ALL_FAVOURITE,
   SET_LOADING_DELETE,
-  DELETE_FAVOURITE
+  DELETE_FAVOURITE,
+  MARK_AS_FAVOURITE
 } from '../actions/types'
 
 const initialState = {
@@ -26,6 +27,7 @@ const initialState = {
   isLoadingFavourite: null,
   isLoadingDelete: null,
   isDeleted: null,
+  isFavourite: null,
   errors: [],
   favourites: [],
   totalFavourites: 0,
@@ -37,6 +39,11 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    case MARK_AS_FAVOURITE:
+      return {
+        ...state,
+        isFavourite: action.payload
+      }
     case DELETE_FAVOURITE:
       return {
         ...state,

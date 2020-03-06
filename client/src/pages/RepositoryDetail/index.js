@@ -16,6 +16,7 @@ function RepositoryDetail () {
   const message = useSelector(state => state.user.message)
   const errors = useSelector(state => state.user.errors)
   const favourites = useSelector(state => state.user.allFavourite)
+  const isFavourite = useSelector(state => state.user.isFavourite)
   const [enable, setEnable] = useState(true)
   const fetchDetail = (name) => dispatch(fetchRepositoryDetail(name))
   const markAsFavourite = (params) => dispatch(addToFavourite(params))
@@ -30,22 +31,16 @@ function RepositoryDetail () {
   }, [])
 
   useEffect(() => {
-    if (message) {
+    if (isFavourite) {
       setShow(true)
     }
-  }, [message])
-
-  useEffect(() => {
-    if (errors.length) {
-      setShow(true)
-    }
-  }, [errors.length, errors])
+  }, [isFavourite])
 
   useEffect(() => {
     setTimeout(() => {
       setShow(false)
     }, 5000)
-  }, [errors, message])
+  }, [errors.length, message])
 
   useEffect(() => {
     if (Object.keys(repository).length) {
