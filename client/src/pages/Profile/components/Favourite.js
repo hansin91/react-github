@@ -8,6 +8,12 @@ function Favourite (props) {
         <img className="img-fluid d-block w-100"
           src={repository.avatar_url}
           alt={repository.name} />
+        <div className="delete-favourite">
+          <i onClick={() => props.openModal({
+            isOpen: true,
+            favouriteId: props.data.id
+          })} className="fa fa-trash"></i>
+        </div>
       </div>
       <div className="favourite-detail">
         <table className="table">

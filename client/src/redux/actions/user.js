@@ -14,7 +14,9 @@ import {
   SET_FAVOURITES,
   SET_TOTAL_FAVOURITES,
   LOAD_MORE_FAVOURITES,
-  SET_ALL_FAVOURITE
+  SET_ALL_FAVOURITE,
+  SET_LOADING_DELETE,
+  DELETE_FAVOURITE
 } from './types'
 import api from '../../api'
 
@@ -206,6 +208,42 @@ export const loadMoreFavourites = (params) => (dispatch) => {
       dispatch(setErrors(err.response))
     })
     .finally(() => dispatch(setLoading(false)))
+}
+
+const setLoadingDelete = (value) => ({
+  type: SET_LOADING_DELETE,
+  payload: value
+})
+
+const setDeletedFavourite = (value) => ({
+  type: DELETE_FAVOURITE,
+  payload: value
+})
+
+export const deleteFavourite = (id) => (dispatch) => {
+  dispatch(setLoadingDelete(true))
+  dispatch(setDeletedFavourite(false))
+  api({
+    method: 'DELETE',
+    url: '/favourites/' + id,
+    headers: {
+      Authorization: 'Bearer ' + localStorage.token
+    }
+  })
+    .then(response => {
+      dispatch(setDeletedFavourite(true))
+      dispatch(setMessage(response.data.message))
+      dispatch(fetchAllFavourite())
+      dispatch(fetchFavourites({
+        page: 1,
+        limit: 10
+      }))
+    })
+    .catch(err => {
+      dispatch(setDeletedFavourite(false))
+      dispatch(setErrors(err.response))
+    })
+    .finally(() => dispatch(setLoadingDelete(false)))
 }
 
 export const addToFavourite = (url) => (dispatch) => {

@@ -84,6 +84,25 @@ export class FavouriteService {
     }
   }
 
+  async deleteFavourites(id) {
+    try {
+      const deleted = await this.favouriteRepository.destroy({
+        where: {
+          id,
+        },
+      })
+      return {
+        status: HttpStatus.OK,
+        message: 'Successfully delete favourite',
+      }
+    } catch (error) {
+      return {
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        error,
+      }
+    }
+  }
+
   async fetchFavourites(req) {
     const { page, limit } = req.query
     try {

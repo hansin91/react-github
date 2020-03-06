@@ -14,7 +14,9 @@ import {
   SET_FAVOURITES,
   SET_TOTAL_FAVOURITES,
   LOAD_MORE_FAVOURITES,
-  SET_ALL_FAVOURITE
+  SET_ALL_FAVOURITE,
+  SET_LOADING_DELETE,
+  DELETE_FAVOURITE
 } from '../actions/types'
 
 const initialState = {
@@ -22,6 +24,8 @@ const initialState = {
   isLoading: null,
   isLoadingApp: null,
   isLoadingFavourite: null,
+  isLoadingDelete: null,
+  isDeleted: null,
   errors: [],
   favourites: [],
   totalFavourites: 0,
@@ -33,6 +37,16 @@ const initialState = {
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    case DELETE_FAVOURITE:
+      return {
+        ...state,
+        isDeleted: action.payload
+      }
+    case SET_LOADING_DELETE:
+      return {
+        ...state,
+        isLoadingDelete: action.payload
+      }
     case SET_ALL_FAVOURITE:
       return {
         ...state,

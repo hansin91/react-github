@@ -18,7 +18,7 @@ function Profile () {
         <div className="profile-tab">
           <NavLink className="active-link" exact to={`${url}`}>Favourites</NavLink>
         </div>
-        <div className="profile-tab">
+        <div className="hide profile-tab">
           <NavLink className="active-link profile-tab" to={`${url}/followers`}>Followers</NavLink>
         </div>
       </div>
@@ -30,7 +30,7 @@ function Profile () {
           <Followers />
         </Route>
       </Switch>
-    </div>
+    </div >
   )
 }
 

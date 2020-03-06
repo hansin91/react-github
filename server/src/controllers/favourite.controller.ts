@@ -1,4 +1,4 @@
-import { Controller, Post, Req, Body, Res, Get } from '@nestjs/common'
+import { Controller, Post, Req, Body, Res, Get, Delete, Param } from '@nestjs/common'
 import { FavouriteService } from 'src/services';
 import { Request, Response } from 'express'
 
@@ -9,6 +9,12 @@ export class FavouriteController {
   @Post()
   public async addToFavourite(@Res() res: Response, @Req() req, @Body() payload: string) {
     const data = await this.favouriteService.addToFavourite(payload, req)
+    res.status(data.status).json(data)
+  }
+
+  @Delete(':id')
+  public async deleteFavourites(@Res() res: Response, @Param('id') id) {
+    const data = await this.favouriteService.deleteFavourites(+id)
     res.status(data.status).json(data)
   }
 
