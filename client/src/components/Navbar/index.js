@@ -21,11 +21,12 @@ import LoginModal from '../../pages/Homepage/components/LoginModal'
 import { logout } from '../../redux/actions'
 import './style.scss'
 
-
-
 function Navbar () {
   const dispatch = useDispatch()
-  const userLogout = () => dispatch(logout())
+  const userLogout = () => {
+    dispatch(logout())
+    history.push('/')
+  }
 
   const useQuery = () => {
     return (new URLSearchParams(useLocation().search))
@@ -104,11 +105,11 @@ function Navbar () {
                   </span>
                 </DropdownToggle>
                 <DropdownMenu right>
-                  <DropdownItem>
-                    <span onClick={goToProfile}>Profile</span>
+                  <DropdownItem onClick={goToProfile}>
+                    <span>Profile</span>
                   </DropdownItem>
-                  <DropdownItem>
-                    <span onClick={userLogout}>Logout</span>
+                  <DropdownItem onClick={userLogout}>
+                    <span>Logout</span>
                   </DropdownItem>
                 </DropdownMenu>
               </UncontrolledDropdown>

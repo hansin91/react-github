@@ -20,7 +20,7 @@ export class UserController {
 
   @Get('followers')
   public async fetchFollowers(@Res() res: Response, @Req() req) {
-    const data = await this.userService.fetchFollowers(req)
+    const data = await this.userService.fetchFollowersOrFollowing(req, 'follower')
     res.status(data.status).json(data)
   }
 }

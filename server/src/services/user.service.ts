@@ -117,7 +117,7 @@ export class UserService {
     }
   }
 
-  async fetchFollowers(req) {
+  async fetchFollowersOrFollowing(req, type) {
     try {
       const id = req.decoded
       const user = await this.userRepository.findOne({
@@ -130,7 +130,10 @@ export class UserService {
         method: 'GET',
         url: process.env.GITHUB_BASE_URL + '/users/' + user.username,
       })
-      const url = githubUser.data.followers_url
+      let url
+      if (type === 'follower') {
+        url = githubUser.data.followers_url
+      }
       const page = req.query.page ? req.query.page : 1
       const limit = req.query.limit ? req.query.limit : 10
       const response = await axios({
