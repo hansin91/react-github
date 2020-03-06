@@ -18,7 +18,7 @@ function RepositoryDetail () {
   const markAsFavourite = (params) => dispatch(addToFavourite(params))
   const { user, repo_name } = useParams()
   const repository_name = user + '/' + repo_name
-  const [isOpen, setIsOpen] = useState(false)
+  const [show, setShow] = useState(false)
 
   useEffect(() => {
     fetchDetail(repository_name)
@@ -26,16 +26,17 @@ function RepositoryDetail () {
 
   useEffect(() => {
     if (message) {
-      setIsOpen(true)
-      // toast(message, { type: toast.TYPE.SUCCESS, autoClose: 5000 })
+      setShow(true)
     }
   }, [message])
 
   useEffect(() => {
-    if (errors) {
-      setIsOpen(true)
-      // toast(error, { type: toast.TYPE.ERROR, autoClose: 5000 })
+    if (errors.length) {
+      setShow(true)
     }
+    setTimeout(() => {
+      setShow(false)
+    }, 2000)
   }, [errors])
 
   const { owner,
@@ -49,6 +50,15 @@ function RepositoryDetail () {
   return (
     <Fragment>
       {isLoading && <Skeleton count={10} />}
+      {repository &&
+        <Toast isOpen={show}>
+          <ToastHeader icon={message ? 'success' : 'danger'}>
+            {message ? 'Message' : 'Error'}
+          </ToastHeader>
+          <ToastBody>
+            {message ? message : errors}
+          </ToastBody>
+        </Toast>}
       {repository &&
         <div className="repository-detail">
           <div className="repository-image">

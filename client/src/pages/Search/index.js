@@ -72,7 +72,7 @@ function Search () {
         linkClass="page-link"
         itemsCountPerPage={10}
         totalItemsCount={totalItems}
-        pageRangeDisplayed={5} />}
+        pageRangeDisplayed={10} />}
     </Fragment>
   )
 }

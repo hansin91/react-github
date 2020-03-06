@@ -200,10 +200,10 @@ export const addToFavourite = (url) => (dispatch) => {
   })
     .then(response => {
       dispatch(setError(''))
-      dispatch(setMessage(response.data))
+      dispatch(setMessage(response.data.message))
     })
     .catch(err => {
-      dispatch(setError(err.response))
+      dispatch(setError([err.response.data.error]))
       dispatch(setMessage(''))
     })
     .finally(() => dispatch(setLoadingFavourite(false)))

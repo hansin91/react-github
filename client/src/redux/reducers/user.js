@@ -63,7 +63,7 @@ export default function (state = initialState, action) {
     case SET_ERRORS:
       return {
         ...state,
-        errors: action.payload.error
+        errors: action.payload
       }
     case SET_MESSAGE:
       return {
