@@ -13,7 +13,8 @@ import {
   LOGOUT,
   SET_FAVOURITES,
   SET_TOTAL_FAVOURITES,
-  LOAD_MORE_FAVOURITES
+  LOAD_MORE_FAVOURITES,
+  SET_ALL_FAVOURITE
 } from '../actions/types'
 
 const initialState = {
@@ -24,12 +25,19 @@ const initialState = {
   errors: [],
   favourites: [],
   totalFavourites: 0,
+  allFavourite: [],
+  message: '',
   user: {},
   token: ''
 }
 
 export default function (state = initialState, action) {
   switch (action.type) {
+    case SET_ALL_FAVOURITE:
+      return {
+        ...state,
+        allFavourite: action.payload
+      }
     case LOAD_MORE_FAVOURITES:
       return {
         ...state,

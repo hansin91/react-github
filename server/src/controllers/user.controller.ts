@@ -17,4 +17,10 @@ export class UserController {
     const data = await this.userService.loginWithGithub(code)
     res.status(data.status).json(data)
   }
+
+  @Get('followers')
+  public async fetchFollowers(@Res() res: Response, @Req() req) {
+    const data = await this.userService.fetchFollowers(req)
+    res.status(data.status).json(data)
+  }
 }

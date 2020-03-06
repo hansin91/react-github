@@ -63,9 +63,17 @@ export class FavouriteService {
         RepositoryId: repo.id,
         UserId: req.decoded,
       })
+
+      const newFavouriteRepository = await this.githubRepository.findOne({
+        include: [sequelize.models.Favourite],
+        where: {
+          id: repo.id,
+        },
+      })
+
       return {
-        status: HttpStatus.OK,
-        favourite: newFavourite,
+        status: HttpStatus.CREATED,
+        favourite: newFavouriteRepository,
         message: repo.name + ' added to your favourites successfully ',
       }
     } catch (error) {
@@ -86,14 +94,24 @@ export class FavouriteService {
         },
       })
 
-      const favourites = await this.favouriteRepository.findAll({
-        include: [sequelize.models.Repository],
-        where: {
-          UserId: req.decoded,
-        },
-        offset: (+page - 1) * +limit,
-        limit: +limit,
-      })
+      let favourites = []
+      if (page && limit) {
+        favourites = await this.favouriteRepository.findAll({
+          include: [sequelize.models.Repository],
+          where: {
+            UserId: req.decoded,
+          },
+          offset: (+page - 1) * +limit,
+          limit: +limit,
+        })
+      } else {
+        favourites = await this.favouriteRepository.findAll({
+          include: [sequelize.models.Repository],
+          where: {
+            UserId: req.decoded,
+          },
+        })
+      }
       return {
         status: HttpStatus.OK,
         favourites,

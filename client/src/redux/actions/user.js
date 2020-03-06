@@ -13,7 +13,8 @@ import {
   SET_LOADING_FAVOURITE,
   SET_FAVOURITES,
   SET_TOTAL_FAVOURITES,
-  LOAD_MORE_FAVOURITES
+  LOAD_MORE_FAVOURITES,
+  SET_ALL_FAVOURITE
 } from './types'
 import api from '../../api'
 
@@ -46,12 +47,12 @@ const setLoadingFavourite = (value) => ({
   payload: value
 })
 
-const setError = (error) => ({
+export const setErrors = (error) => ({
   type: SET_ERRORS,
   payload: error
 })
 
-const setMessage = (message) => ({
+export const setMessage = (message) => ({
   type: SET_MESSAGE,
   payload: message
 })
@@ -89,11 +90,11 @@ export const loginWithGithub = (code) => (dispatch) => {
       dispatch(loginSuccess(response.data))
       localStorage.setItem('token', response.data.token)
       dispatch(verifyUserToken())
-      dispatch(setError(''))
+      dispatch(setErrors([]))
     })
     .catch(err => {
       dispatch(loginFailed(err.response))
-      dispatch(setError(err.response))
+      dispatch(setErrors(err.response))
     })
     .finally(() => dispatch(setLoading(false)))
 }
@@ -124,11 +125,11 @@ export const verifyUserToken = () => (dispatch) => {
   })
     .then(response => {
       dispatch(verifyTokenSuccess(response.data.user))
-      dispatch(setError(''))
+      dispatch(setErrors([]))
     })
     .catch(err => {
       dispatch(verifyTokenFaild())
-      dispatch(setError(err.response))
+      dispatch(setErrors(err.response))
     })
     .finally(() => dispatch(setLoadingApp(false)))
 }
@@ -152,9 +153,30 @@ export const fetchFavourites = (params) => (dispatch) => {
       dispatch(setTotalFavourites(response.data.total))
     })
     .catch(err => {
-      dispatch(setError(err.response))
+      dispatch(setErrors(err.response))
     })
     .finally(() => dispatch(setLoading(false)))
+}
+
+const setAllFavourite = (value) => ({
+  type: SET_ALL_FAVOURITE,
+  payload: value
+})
+
+export const fetchAllFavourite = () => (dispatch) => {
+  api({
+    method: 'GET',
+    url: '/favourites',
+    headers: {
+      Authorization: 'Bearer ' + localStorage.token,
+    }
+  })
+    .then(response => {
+      dispatch(setAllFavourite(response.data.favourites))
+    })
+    .catch(err => {
+      dispatch(setErrors(err.response))
+    })
 }
 
 const setMoreFavourites = (value) => ({
@@ -181,7 +203,7 @@ export const loadMoreFavourites = (params) => (dispatch) => {
       dispatch(setTotalFavourites(response.data.total))
     })
     .catch(err => {
-      dispatch(setError(err.response))
+      dispatch(setErrors(err.response))
     })
     .finally(() => dispatch(setLoading(false)))
 }
@@ -199,11 +221,12 @@ export const addToFavourite = (url) => (dispatch) => {
     }
   })
     .then(response => {
-      dispatch(setError(''))
+      dispatch(setErrors([]))
       dispatch(setMessage(response.data.message))
+      dispatch(fetchAllFavourite())
     })
     .catch(err => {
-      dispatch(setError([err.response.data.error]))
+      dispatch(setErrors([err.response.data.error]))
       dispatch(setMessage(''))
     })
     .finally(() => dispatch(setLoadingFavourite(false)))

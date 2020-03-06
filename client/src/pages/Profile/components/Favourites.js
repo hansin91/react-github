@@ -37,6 +37,9 @@ function Favourites () {
           <Button onClick={() => loadMore(page + 1)}
             outline color="primary">Load more</Button> : ''}
       </Row>
+      {!favourites.length &&
+        <p className="not-found-favourites">There is no repository in your favourites</p>
+      }
     </Fragment>
   )
 }

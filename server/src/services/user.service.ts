@@ -2,7 +2,7 @@ import { Injectable, HttpStatus } from '@nestjs/common'
 import { Op } from 'sequelize'
 import axios from 'axios'
 import * as jwt from 'jsonwebtoken'
-import { User, Repository, Favourite } from '../entities'
+import { User } from '../entities'
 import { sequelize } from '../database/sequelize'
 
 @Injectable()
@@ -108,6 +108,39 @@ export class UserService {
       return {
         status: HttpStatus.OK,
         token,
+      }
+    } catch (error) {
+      return {
+        status: HttpStatus.INTERNAL_SERVER_ERROR,
+        error,
+      }
+    }
+  }
+
+  async fetchFollowers(req) {
+    try {
+      const id = req.decoded
+      const user = await this.userRepository.findOne({
+        where: {
+          id,
+        },
+      })
+
+      const githubUser = await axios({
+        method: 'GET',
+        url: process.env.GITHUB_BASE_URL + '/users/' + user.username,
+      })
+      const url = githubUser.data.followers_url
+      const page = req.query.page ? req.query.page : 1
+      const limit = req.query.limit ? req.query.limit : 10
+      const response = await axios({
+        method: 'GET',
+        url: url + '?page=' + page + '&per_page=' + limit,
+      })
+      return {
+        status: HttpStatus.OK,
+        followers: response.data,
+        total: githubUser.data.followers,
       }
     } catch (error) {
       return {

@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { Button, Toast, ToastBody, ToastHeader } from 'reactstrap'
 import { fetchRepositoryDetail, addToFavourite } from '../../redux/actions'
+import { setErrors, setMessage } from '../../redux/actions/user'
 import Skeleton from 'react-loading-skeleton'
 import './style.scss'
 
@@ -14,6 +15,8 @@ function RepositoryDetail () {
   const isLoadingFavourite = useSelector(state => state.user.isLoadingFavourite)
   const message = useSelector(state => state.user.message)
   const errors = useSelector(state => state.user.errors)
+  const favourites = useSelector(state => state.user.allFavourite)
+  const [enable, setEnable] = useState(true)
   const fetchDetail = (name) => dispatch(fetchRepositoryDetail(name))
   const markAsFavourite = (params) => dispatch(addToFavourite(params))
   const { user, repo_name } = useParams()
@@ -21,6 +24,8 @@ function RepositoryDetail () {
   const [show, setShow] = useState(false)
 
   useEffect(() => {
+    dispatch(setErrors([]))
+    dispatch(setMessage(''))
     fetchDetail(repository_name)
   }, [])
 
@@ -34,10 +39,24 @@ function RepositoryDetail () {
     if (errors.length) {
       setShow(true)
     }
+  }, [errors])
+
+  useEffect(() => {
     setTimeout(() => {
       setShow(false)
-    }, 2000)
-  }, [errors])
+    }, 5000)
+  }, [errors, message])
+
+  useEffect(() => {
+    if (Object.keys(repository).length) {
+      const [found] = favourites.filter((fav) => fav.repository.github_id === repository.id)
+      if (found) {
+        setEnable(false)
+      } else {
+        setEnable(true)
+      }
+    }
+  }, [favourites, repository])
 
   const { owner,
     forks_count,
@@ -112,7 +131,7 @@ function RepositoryDetail () {
               isAuthenticated &&
               !isLoadingFavourite &&
               <div className="button-favourite">
-                <Button onClick={() => markAsFavourite(url)} color="warning">
+                <Button disabled={!enable} onClick={() => markAsFavourite(url)} color="warning">
                   <i className="fa fa-thumbs-up icon-favourite" aria-hidden="true"></i>
                   <span className="text">Favourite</span>
                 </Button>

@@ -3,6 +3,7 @@ import axios from 'axios'
 
 @Injectable()
 export class GithubService {
+
   async searchUserOrRepository(params) {
     const page = params.page ? params.page : 1
     const limit = params.limit ? params.limit : 10
@@ -38,6 +39,10 @@ export class GithubService {
       const response = await axios({
         method: 'GET',
         url,
+        params: {
+          client_id: process.env.CLIENT_ID,
+          client_secret: process.env.CLIENT_SECRET,
+        },
       })
       return {
         status: HttpStatus.OK,

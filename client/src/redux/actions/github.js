@@ -5,6 +5,7 @@ import {
   SET_REPOSITORY
 } from './types'
 import api from '../../api'
+import { fetchAllFavourite } from './user'
 
 const searchData = (value) => ({
   type: SET_SEARCH_RESULT,
@@ -26,7 +27,7 @@ const setRepository = (data) => ({
   payload: data
 })
 
-export const fetchRepositoryDetail = (name) => (dispatch) => {
+export const fetchRepositoryDetail = (name) => (dispatch, getState) => {
   dispatch(setLoading(true))
   dispatch(setRepository(''))
   api({
@@ -39,6 +40,7 @@ export const fetchRepositoryDetail = (name) => (dispatch) => {
     .then(response => {
       dispatch(setErrors([]))
       dispatch(setRepository(response.data.repository))
+      dispatch(fetchAllFavourite())
     })
     .catch(err => {
       dispatch(setErrors(err.response))
