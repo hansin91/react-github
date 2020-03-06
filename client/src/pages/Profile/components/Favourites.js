@@ -24,6 +24,7 @@ function Favourites () {
   useEffect(() => {
     if (isDeleted) {
       setIsOpen(false)
+      setPage(1)
     }
   }, [isDeleted])
 

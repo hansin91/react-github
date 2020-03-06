@@ -66,11 +66,11 @@ function RepositoryDetail () {
       {isLoading && <Skeleton count={10} />}
       {repository &&
         <Toast isOpen={show}>
-          <ToastHeader icon={message ? 'success' : 'danger'}>
-            {message ? 'Message' : 'Error'}
+          <ToastHeader icon="success">
+            Message
           </ToastHeader>
           <ToastBody>
-            {message ? message : errors.length ? errors : ''}
+            {message}
           </ToastBody>
         </Toast>}
       {repository &&

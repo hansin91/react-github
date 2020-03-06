@@ -30,7 +30,7 @@ function Profile () {
           <Followers />
         </Route>
       </Switch>
-    </div >
+    </div>
   )
 }
 
